@@ -3,431 +3,256 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🔥 Generador de Arte · geni2012_</title>
+<title>🔥 Generador de Arte · Dragón Primordial</title>
+<meta name="description" content="Generador de arte con IA de Dragón Primordial. Escribe cualquier idea y crea tu imagen gratis.">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root {
-    --fire: #ff4d00;
-    --ember: #ff8c00;
-    --gold: #ffd700;
-    --dark: #050305;
-    --deep: #0d0509;
-    --blood: #8b0000;
-    --teal: #00c8a0;
-    --card-bg: rgba(20, 5, 10, 0.85);
+    --fire:#ff4d00; --ember:#ff8c00; --gold:#ffd700;
+    --dark:#050305; --deep:#0d0509; --blood:#8b0000;
+    --teal:#00c8a0; --purple:#9b00ff; --card-bg:rgba(20,5,10,0.85);
   }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--dark);
-    color: #e8d5b0;
-    font-family: 'Cinzel', serif;
-    overflow-x: hidden;
-    cursor: crosshair;
-    min-height: 100vh;
-  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--dark);color:#e8d5b0;font-family:'Cinzel',serif;overflow-x:hidden;cursor:crosshair;min-height:100vh;}
+  #particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
 
-  #particles { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+  /* HERO */
+  .hero{position:relative;padding:4rem 2rem 3rem;text-align:center;z-index:1;
+    background:radial-gradient(ellipse 80% 50% at 50% 80%,rgba(180,40,0,0.2) 0%,transparent 70%),
+               radial-gradient(ellipse 60% 40% at 50% 0%,rgba(80,0,120,0.25) 0%,transparent 60%);}
+  .hero::before{content:'';position:absolute;inset:0;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect width='60' height='60' fill='none'/%3E%3Cpath d='M0 0 L60 60 M60 0 L0 60' stroke='rgba(255,120,0,0.03)' stroke-width='0.5'/%3E%3C/svg%3E") repeat;pointer-events:none;}
+  .eyebrow{font-size:0.65rem;letter-spacing:0.5em;color:var(--ember);text-transform:uppercase;margin-bottom:1rem;animation:fadeDown 1s ease both;}
+  h1{font-family:'Cinzel Decorative',serif;font-size:clamp(1.8rem,6vw,4.5rem);font-weight:900;
+    background:linear-gradient(160deg,#ffe680 0%,#ff8c00 35%,#ff2200 65%,#9b00ff 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    filter:drop-shadow(0 0 30px rgba(255,100,0,0.5));animation:blazeIn 1.2s cubic-bezier(.2,.8,.3,1) both;}
+  .hero-sub{margin-top:0.8rem;font-family:'IM Fell English',serif;font-style:italic;font-size:clamp(0.9rem,2vw,1.15rem);color:#d4b88a;animation:fadeUp 1.4s ease both 0.3s;}
 
-  /* ── HERO ── */
-  .hero {
-    position: relative;
-    padding: 4rem 2rem 3rem;
-    text-align: center;
-    z-index: 1;
-    background:
-      radial-gradient(ellipse 80% 50% at 50% 80%, rgba(180,40,0,0.2) 0%, transparent 70%),
-      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(80,0,120,0.25) 0%, transparent 60%);
-  }
-  .hero::before {
-    content:'';
-    position:absolute; inset:0;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect width='60' height='60' fill='none'/%3E%3Cpath d='M0 0 L60 60 M60 0 L0 60' stroke='rgba(255,120,0,0.03)' stroke-width='0.5'/%3E%3C/svg%3E") repeat;
-    pointer-events:none;
-  }
-  .eyebrow {
-    font-size:0.65rem; letter-spacing:0.5em; color:var(--ember);
-    text-transform:uppercase; margin-bottom:1rem;
-    animation: fadeDown 1s ease both;
-  }
-  h1 {
-    font-family:'Cinzel Decorative', serif;
-    font-size: clamp(1.8rem, 6vw, 4.5rem);
-    font-weight:900;
-    background: linear-gradient(160deg, #ffe680 0%, #ff8c00 35%, #ff2200 65%, #9b00ff 100%);
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-    filter: drop-shadow(0 0 30px rgba(255,100,0,0.5));
-    animation: blazeIn 1.2s cubic-bezier(.2,.8,.3,1) both;
-  }
-  .hero-sub {
-    margin-top:0.8rem;
-    font-family:'IM Fell English', serif; font-style:italic;
-    font-size:clamp(0.9rem, 2vw, 1.15rem);
-    color:#d4b88a; animation: fadeUp 1.4s ease both 0.3s;
-  }
+  /* SOCIAL BAR */
+  .social-bar{display:flex;align-items:center;justify-content:center;gap:0.6rem;flex-wrap:wrap;
+    padding:0.8rem 2rem;background:rgba(8,2,6,0.95);border-bottom:1px solid rgba(255,140,0,0.12);position:relative;z-index:2;}
+  .social-link{display:flex;align-items:center;gap:0.4rem;font-family:'Cinzel',serif;font-size:0.58rem;
+    letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,140,0,0.5);text-decoration:none;
+    padding:0.4rem 0.85rem;border:1px solid rgba(255,140,0,0.12);transition:all 0.25s;
+    clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);white-space:nowrap;}
+  .social-link:hover{color:var(--gold);border-color:rgba(255,140,0,0.45);background:rgba(255,100,0,0.09);}
 
-  /* ── LIVE BAR ── */
-  .live-bar {
-    display:flex; align-items:center; justify-content:center; gap:2rem;
-    flex-wrap:wrap;
-    padding:0.9rem 2rem;
-    background: rgba(10,3,8,0.8);
-    border-top: 1px solid rgba(255,140,0,0.1);
-    border-bottom: 1px solid rgba(255,140,0,0.1);
-    backdrop-filter: blur(6px);
-    position: relative; z-index:2;
-    font-size:0.7rem; letter-spacing:0.15em;
-  }
-  .live-item { display:flex; align-items:center; gap:0.5rem; color:#a08060; }
-  .live-dot {
-    width:7px; height:7px; border-radius:50%;
-    background: var(--teal);
-    box-shadow: 0 0 8px var(--teal);
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-  .live-dot.red { background:#ff4444; box-shadow:0 0 8px #ff4444; }
-  .live-count { color:var(--gold); font-weight:700; font-size:0.85rem; }
-  .live-gen-count { color:var(--ember); font-weight:700; font-size:0.85rem; }
+  /* LIVE BAR */
+  .live-bar{display:flex;align-items:center;justify-content:center;gap:2rem;flex-wrap:wrap;
+    padding:0.9rem 2rem;background:rgba(10,3,8,0.8);
+    border-top:1px solid rgba(255,140,0,0.1);border-bottom:1px solid rgba(255,140,0,0.1);
+    backdrop-filter:blur(6px);position:relative;z-index:2;font-size:0.7rem;letter-spacing:0.15em;}
+  .live-item{display:flex;align-items:center;gap:0.5rem;color:#a08060;}
+  .live-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal);animation:pulse 1.5s ease-in-out infinite;}
+  .live-dot.red{background:#ff4444;box-shadow:0 0 8px #ff4444;}
+  .live-count{color:var(--gold);font-weight:700;font-size:0.85rem;}
+  .live-gen-count{color:var(--ember);font-weight:700;font-size:0.85rem;}
 
-  /* ── DIVIDER ── */
-  .divider {
-    width:100%; height:2px;
-    background: linear-gradient(90deg, transparent, var(--fire), var(--gold), var(--fire), transparent);
-    position:relative; z-index:1;
-  }
+  /* DIVIDER */
+  .divider{width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--fire),var(--gold),var(--fire),transparent);position:relative;z-index:1;}
 
-  /* ── MAIN LAYOUT ── */
-  .main-wrap {
-    max-width:1100px; margin:0 auto;
-    padding:3rem 2rem;
-    position:relative; z-index:1;
-    display:flex; flex-direction:column; gap:3rem;
-  }
+  /* MAIN */
+  .main-wrap{max-width:1100px;margin:0 auto;padding:3rem 2rem;position:relative;z-index:1;display:flex;flex-direction:column;gap:3rem;}
 
-  /* ── GENERATOR BOX ── */
-  .gen-box {
-    background: var(--card-bg);
-    border: 1px solid rgba(255,140,0,0.2);
-    padding:2.5rem;
-    backdrop-filter:blur(6px);
-  }
-  .gen-title {
-    font-family:'Cinzel Decorative', serif;
-    font-size:1rem; color:var(--gold);
-    margin-bottom:1.8rem; text-align:center;
-    filter: drop-shadow(0 0 10px rgba(255,200,0,0.3));
-  }
+  /* GEN BOX */
+  .gen-box{background:var(--card-bg);border:1px solid rgba(255,140,0,0.2);padding:2.5rem;backdrop-filter:blur(6px);}
+  .gen-title{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--gold);margin-bottom:1.8rem;text-align:center;filter:drop-shadow(0 0 10px rgba(255,200,0,0.3));}
+  .input-row{display:flex;gap:0.8rem;flex-wrap:wrap;}
+  .prompt-input{flex:1;min-width:220px;background:rgba(5,3,5,0.8);border:1px solid rgba(255,140,0,0.25);color:#e8d5b0;font-family:'Cinzel',serif;font-size:0.85rem;padding:0.9rem 1.2rem;outline:none;transition:border-color 0.25s,box-shadow 0.25s;cursor:text;letter-spacing:0.05em;}
+  .prompt-input::placeholder{color:rgba(255,140,0,0.25);}
+  .prompt-input:focus{border-color:var(--ember);box-shadow:0 0 20px rgba(255,120,0,0.15);}
+  .style-select,.size-select{background:rgba(5,3,5,0.8);border:1px solid rgba(255,140,0,0.25);color:var(--ember);font-family:'Cinzel',serif;font-size:0.7rem;padding:0.9rem 1rem;outline:none;cursor:pointer;transition:border-color 0.25s;letter-spacing:0.1em;}
+  .style-select option,.size-select option{background:#0d0509;}
+  .gen-btn{font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.9rem 2rem;background:linear-gradient(135deg,#ff4500,#ff8c00);color:#fff;border:none;cursor:pointer;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);box-shadow:0 0 25px rgba(255,80,0,0.4);transition:all 0.25s;white-space:nowrap;}
+  .gen-btn:hover:not(:disabled){background:linear-gradient(135deg,#ff6a00,#ffaa00);box-shadow:0 0 40px rgba(255,120,0,0.6);transform:translateY(-2px);}
+  .gen-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
 
-  /* input row */
-  .input-row {
-    display:flex; gap:0.8rem; flex-wrap:wrap;
-  }
-  .prompt-input {
-    flex:1; min-width:220px;
-    background: rgba(5,3,5,0.8);
-    border: 1px solid rgba(255,140,0,0.25);
-    color:#e8d5b0;
-    font-family:'Cinzel', serif;
-    font-size:0.85rem;
-    padding:0.9rem 1.2rem;
-    outline:none;
-    transition: border-color 0.25s, box-shadow 0.25s;
-    cursor:text;
-    letter-spacing:0.05em;
-  }
-  .prompt-input::placeholder { color:rgba(255,140,0,0.25); }
-  .prompt-input:focus {
-    border-color: var(--ember);
-    box-shadow: 0 0 20px rgba(255,120,0,0.15);
-  }
+  /* CONTROLS ROW */
+  .controls-row{display:flex;align-items:center;gap:0.7rem;flex-wrap:wrap;margin-bottom:1.2rem;}
 
-  .style-select {
-    background: rgba(5,3,5,0.8);
-    border: 1px solid rgba(255,140,0,0.25);
-    color: var(--ember);
-    font-family:'Cinzel', serif; font-size:0.7rem;
-    padding:0.9rem 1rem; outline:none; cursor:pointer;
-    transition: border-color 0.25s;
-    letter-spacing:0.1em;
-  }
-  .style-select:focus { border-color:var(--ember); }
-  .style-select option { background:#0d0509; }
+  /* QUALITY SELECTOR */
+  .quality-row{display:flex;align-items:center;gap:0.7rem;flex-wrap:wrap;margin-bottom:1.2rem;}
+  .quality-label,.ctrl-label{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,140,0,0.5);white-space:nowrap;}
+  .quality-btn{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:0.15rem;
+    font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;
+    padding:0.55rem 1.1rem;background:rgba(5,3,5,0.7);border:1px solid rgba(255,140,0,0.18);
+    color:rgba(255,140,0,0.5);cursor:pointer;transition:all 0.22s;
+    clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);}
+  .quality-btn:hover{border-color:rgba(255,140,0,0.45);color:var(--ember);background:rgba(255,80,0,0.07);}
+  .quality-btn.active{border-color:var(--ember);color:var(--gold);background:rgba(255,100,0,0.12);box-shadow:0 0 18px rgba(255,100,0,0.2);}
+  .quality-hint{font-size:0.52rem;letter-spacing:0.08em;text-transform:none;font-family:'IM Fell English',serif;font-style:italic;color:rgba(255,180,80,0.45);margin-top:0.05rem;line-height:1;}
+  .quality-btn.active .quality-hint{color:rgba(255,200,100,0.65);}
 
-  .gen-btn {
-    font-family:'Cinzel', serif;
-    font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase;
-    padding:0.9rem 2rem;
-    background: linear-gradient(135deg, #ff4500, #ff8c00);
-    color:#fff; border:none; cursor:pointer;
-    clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
-    box-shadow: 0 0 25px rgba(255,80,0,0.4);
-    transition: all 0.25s;
-    white-space:nowrap;
-  }
-  .gen-btn:hover:not(:disabled) {
-    background: linear-gradient(135deg, #ff6a00, #ffaa00);
-    box-shadow: 0 0 40px rgba(255,120,0,0.6);
-    transform: translateY(-2px);
-  }
-  .gen-btn:disabled {
-    opacity:0.5; cursor:not-allowed; transform:none;
-  }
+  /* SURPRISE BTN */
+  .surprise-btn{font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;
+    padding:0.55rem 1.2rem;background:rgba(155,0,255,0.12);border:1px solid rgba(155,0,255,0.35);
+    color:rgba(200,130,255,0.8);cursor:pointer;transition:all 0.22s;
+    clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);white-space:nowrap;}
+  .surprise-btn:hover{background:rgba(155,0,255,0.22);border-color:rgba(200,100,255,0.6);color:#d4aaff;box-shadow:0 0 20px rgba(155,0,255,0.3);}
 
-  /* sugerencias */
-  .suggestions {
-    display:flex; flex-wrap:wrap; gap:0.5rem;
-    margin-top:1.2rem;
-  }
-  .sug-tag {
-    font-size:0.62rem; letter-spacing:0.15em; text-transform:uppercase;
-    padding:0.35rem 0.9rem;
-    border:1px solid rgba(255,140,0,0.2);
-    color:rgba(255,140,0,0.6);
-    cursor:pointer; transition:all 0.2s;
-    clip-path: polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);
-  }
-  .sug-tag:hover {
-    background:rgba(255,100,0,0.1);
-    border-color:var(--ember); color:var(--gold);
-  }
+  /* SUGGESTIONS */
+  .suggestions{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.2rem;}
+  .sug-tag{font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.35rem 0.9rem;border:1px solid rgba(255,140,0,0.2);color:rgba(255,140,0,0.6);cursor:pointer;transition:all 0.2s;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);}
+  .sug-tag:hover{background:rgba(255,100,0,0.1);border-color:var(--ember);color:var(--gold);}
 
-  /* ── RESULT AREA ── */
-  .result-area {
-    margin-top:2rem;
-    display:none;
-  }
-  .result-area.show { display:block; }
+  /* PROGRESS BAR */
+  .progress-wrap{margin-top:1.5rem;display:none;}
+  .progress-wrap.show{display:block;}
+  .progress-label{font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,140,0,0.5);margin-bottom:0.5rem;}
+  .progress-bar{width:100%;height:3px;background:rgba(255,140,0,0.1);position:relative;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--fire),var(--gold),var(--ember));width:0%;transition:width 0.5s ease;position:relative;}
+  .progress-fill::after{content:'';position:absolute;top:0;right:0;width:40px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4));animation:shimmer 1s ease-in-out infinite;}
+  @keyframes shimmer{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
 
-  .result-grid {
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap:1.5rem;
-  }
-  @media(max-width:620px){ .result-grid { grid-template-columns:1fr; } }
+  /* RESULT */
+  .result-area{margin-top:2rem;display:none;}
+  .result-area.show{display:block;}
+  .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  @media(max-width:620px){.result-grid{grid-template-columns:1fr;}}
+  .result-img-wrap{position:relative;aspect-ratio:1;background:#0a0308;border:1px solid rgba(255,140,0,0.15);overflow:hidden;display:flex;align-items:center;justify-content:center;}
+  .result-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity 0.5s ease;}
+  .loading-overlay{position:absolute;inset:0;background:rgba(5,3,5,0.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;z-index:2;}
+  .loading-overlay.hidden{display:none;}
+  .spinner{width:48px;height:48px;border:3px solid rgba(255,140,0,0.15);border-top-color:var(--ember);border-radius:50%;animation:spin 0.8s linear infinite;}
+  .loading-text{font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--ember);animation:pulse 1.5s ease-in-out infinite;}
+  .result-info{display:flex;flex-direction:column;gap:1rem;justify-content:space-between;}
+  .result-prompt-label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,140,0,0.4);margin-bottom:0.4rem;}
+  .result-prompt-val{font-family:'IM Fell English',serif;font-style:italic;font-size:1.1rem;color:var(--gold);line-height:1.4;filter:drop-shadow(0 0 8px rgba(255,200,0,0.3));}
+  .result-meta{display:flex;flex-direction:column;gap:0.5rem;}
+  .result-meta-row{display:flex;align-items:center;gap:0.5rem;font-size:0.7rem;color:#a08060;letter-spacing:0.05em;}
+  .result-meta-row .label{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,140,0,0.4);}
 
-  .result-img-wrap {
-    position:relative;
-    aspect-ratio:1;
-    background:#0a0308;
-    border:1px solid rgba(255,140,0,0.15);
-    overflow:hidden;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .result-img-wrap img {
-    width:100%; height:100%; object-fit:cover;
-    display:block;
-  }
-  .loading-overlay {
-    position:absolute; inset:0;
-    background: rgba(5,3,5,0.92);
-    display:flex; flex-direction:column;
-    align-items:center; justify-content:center;
-    gap:1rem;
-    z-index:2;
-  }
-  .loading-overlay.hidden { display:none; }
-  .spinner {
-    width:48px; height:48px;
-    border:3px solid rgba(255,140,0,0.15);
-    border-top-color: var(--ember);
-    border-radius:50%;
-    animation: spin 0.8s linear infinite;
-  }
-  .loading-text {
-    font-size:0.65rem; letter-spacing:0.3em;
-    text-transform:uppercase; color:var(--ember);
-    animation: pulse 1.5s ease-in-out infinite;
-  }
+  /* ACTION BUTTONS */
+  .action-btns{display:flex;gap:0.6rem;flex-wrap:wrap;}
+  .action-btn{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.6rem 1.1rem;background:transparent;border:1px solid rgba(255,140,0,0.3);color:var(--ember);cursor:pointer;transition:all 0.25s;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;}
+  .action-btn:hover{background:rgba(255,100,0,0.1);border-color:var(--ember);color:var(--gold);}
+  .action-btn.share-btn{border-color:rgba(0,200,160,0.3);color:var(--teal);}
+  .action-btn.share-btn:hover{background:rgba(0,200,160,0.08);border-color:var(--teal);color:#00ffcc;}
+  .action-btn.regen-btn{border-color:rgba(155,0,255,0.3);color:rgba(200,130,255,0.8);}
+  .action-btn.regen-btn:hover{background:rgba(155,0,255,0.1);border-color:rgba(155,0,255,0.6);color:#d4aaff;}
 
-  .result-info {
-    display:flex; flex-direction:column; gap:1rem;
-    justify-content:space-between;
-  }
-  .result-prompt-label {
-    font-size:0.6rem; letter-spacing:0.3em;
-    text-transform:uppercase; color:rgba(255,140,0,0.4);
-    margin-bottom:0.4rem;
-  }
-  .result-prompt-val {
-    font-family:'IM Fell English', serif; font-style:italic;
-    font-size:1.1rem; color:var(--gold); line-height:1.4;
-    filter: drop-shadow(0 0 8px rgba(255,200,0,0.3));
-  }
-  .result-meta { display:flex; flex-direction:column; gap:0.5rem; }
-  .result-meta-row {
-    display:flex; align-items:center; gap:0.5rem;
-    font-size:0.7rem; color:#a08060; letter-spacing:0.05em;
-  }
-  .result-meta-row .label {
-    font-size:0.6rem; letter-spacing:0.2em;
-    text-transform:uppercase; color:rgba(255,140,0,0.4);
-  }
+  /* MULTI-GEN */
+  .multi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:2rem;display:none;}
+  .multi-grid.show{display:grid;}
+  .mini-card{position:relative;aspect-ratio:1;background:#0a0308;border:1px solid rgba(255,140,0,0.12);overflow:hidden;cursor:pointer;transition:border-color 0.3s,box-shadow 0.3s;}
+  .mini-card:hover{border-color:rgba(255,140,0,0.4);box-shadow:0 4px 20px rgba(180,60,0,0.3);}
+  .mini-card img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.5s;}
+  .mini-card .mini-spinner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(5,3,5,0.9);}
+  .mini-card .mini-spinner.hidden{display:none;}
 
-  .download-btn {
-    font-family:'Cinzel', serif;
-    font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase;
-    padding:0.7rem 1.5rem;
-    background:transparent;
-    border:1px solid rgba(255,140,0,0.3);
-    color:var(--ember);
-    cursor:pointer; transition:all 0.25s;
-    clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
-    text-decoration:none; display:inline-block;
-    align-self:flex-start;
-  }
-  .download-btn:hover {
-    background:rgba(255,100,0,0.1);
-    border-color:var(--ember); color:var(--gold);
-  }
+  /* TOAST */
+  .toast{position:fixed;bottom:2rem;right:2rem;background:rgba(0,200,160,0.15);border:1px solid rgba(0,200,160,0.4);color:var(--teal);font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.8rem 1.5rem;z-index:9999;backdrop-filter:blur(8px);transform:translateY(100px);opacity:0;transition:all 0.35s cubic-bezier(.2,.8,.3,1);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);}
+  .toast.show{transform:translateY(0);opacity:1;}
 
-  /* ── RECENT GALLERY ── */
-  .recent-title {
-    font-family:'Cinzel Decorative', serif;
-    font-size:1rem; color:var(--gold);
-    margin-bottom:1.5rem;
-    filter: drop-shadow(0 0 10px rgba(255,200,0,0.3));
-  }
-  .recent-grid {
-    display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap:1rem;
-  }
-  .recent-card {
-    background: rgba(10,3,8,0.7);
-    border:1px solid rgba(255,140,0,0.12);
-    overflow:hidden;
-    cursor:pointer;
-    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-    position:relative;
-  }
-  .recent-card:hover {
-    transform:translateY(-4px);
-    border-color:rgba(255,140,0,0.4);
-    box-shadow:0 8px 30px rgba(180,60,0,0.2);
-  }
-  .recent-card img {
-    width:100%; aspect-ratio:1; object-fit:cover; display:block;
-    transition: transform 0.4s;
-  }
-  .recent-card:hover img { transform:scale(1.05); }
-  .recent-card-label {
-    padding:0.5rem 0.6rem;
-    font-size:0.62rem; letter-spacing:0.08em;
-    color:#a08060; font-family:'IM Fell English', serif;
-    font-style:italic; white-space:nowrap;
-    overflow:hidden; text-overflow:ellipsis;
-  }
-  .no-recent {
-    grid-column: 1/-1;
-    text-align:center; padding:2rem;
-    font-family:'IM Fell English', serif; font-style:italic;
-    color:rgba(255,140,0,0.2); font-size:0.95rem;
-  }
+  /* RECENT */
+  .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.5rem;}
+  .recent-title{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--gold);filter:drop-shadow(0 0 10px rgba(255,200,0,0.3));}
+  .clear-btn{font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.35rem 0.9rem;background:transparent;border:1px solid rgba(255,50,50,0.25);color:rgba(255,100,100,0.5);cursor:pointer;transition:all 0.2s;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);}
+  .clear-btn:hover{border-color:rgba(255,100,100,0.5);color:#ff9999;background:rgba(255,50,50,0.08);}
+  .recent-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;}
+  .recent-card{background:rgba(10,3,8,0.7);border:1px solid rgba(255,140,0,0.12);overflow:hidden;cursor:pointer;transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;position:relative;}
+  .recent-card:hover{transform:translateY(-4px);border-color:rgba(255,140,0,0.4);box-shadow:0 8px 30px rgba(180,60,0,0.2);}
+  .recent-card img{width:100%;aspect-ratio:1;object-fit:cover;display:block;transition:transform 0.4s;}
+  .recent-card:hover img{transform:scale(1.05);}
+  .recent-card-label{padding:0.5rem 0.6rem;font-size:0.62rem;color:#a08060;font-family:'IM Fell English',serif;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .recent-card-dl{position:absolute;top:0.4rem;right:0.4rem;background:rgba(5,3,5,0.8);border:1px solid rgba(255,140,0,0.25);color:var(--ember);width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;text-decoration:none;opacity:0;transition:opacity 0.2s;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);}
+  .recent-card:hover .recent-card-dl{opacity:1;}
+  .no-recent{grid-column:1/-1;text-align:center;padding:2rem;font-family:'IM Fell English',serif;font-style:italic;color:rgba(255,140,0,0.2);}
 
-  /* ── USERS ONLINE ── */
-  .users-section {
-    background:var(--card-bg);
-    border:1px solid rgba(255,140,0,0.15);
-    padding:1.8rem 2rem;
-  }
-  .users-title {
-    font-family:'Cinzel Decorative', serif; font-size:0.85rem;
-    color:var(--gold); margin-bottom:1.2rem;
-    display:flex; align-items:center; gap:0.7rem;
-  }
-  .users-list {
-    display:flex; flex-wrap:wrap; gap:0.6rem;
-  }
-  .user-tag {
-    display:flex; align-items:center; gap:0.4rem;
-    font-size:0.65rem; letter-spacing:0.1em;
-    padding:0.35rem 0.8rem;
-    background:rgba(255,255,255,0.03);
-    border:1px solid rgba(255,140,0,0.12);
-    color:#a08060;
-    clip-path: polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);
-    animation: fadeUp 0.4s ease both;
-  }
-  .user-tag .udot {
-    width:5px; height:5px; border-radius:50%;
-    background:var(--teal); box-shadow:0 0 5px var(--teal);
-    flex-shrink:0;
-  }
-  .user-tag .uname { color:var(--ember); }
+  /* USERS */
+  .users-section{background:var(--card-bg);border:1px solid rgba(255,140,0,0.15);padding:1.8rem 2rem;}
+  .users-title{font-family:'Cinzel Decorative',serif;font-size:0.85rem;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:0.7rem;}
+  .users-list{display:flex;flex-wrap:wrap;gap:0.6rem;}
+  .user-tag{display:flex;align-items:center;gap:0.4rem;font-size:0.65rem;letter-spacing:0.1em;padding:0.35rem 0.8rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,140,0,0.12);color:#a08060;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);animation:fadeUp 0.4s ease both;}
+  .user-tag .udot{width:5px;height:5px;border-radius:50%;background:var(--teal);box-shadow:0 0 5px var(--teal);flex-shrink:0;}
+  .user-tag .uname{color:var(--ember);}
 
-  /* ── LIGHTBOX ── */
-  .lightbox {
-    display:none; position:fixed; inset:0;
-    background:rgba(5,3,5,0.95); z-index:1000;
-    align-items:center; justify-content:center;
-    backdrop-filter:blur(8px); padding:2rem;
-  }
-  .lightbox.open { display:flex; }
-  .lightbox-inner { max-width:600px; width:100%; position:relative; }
-  .lightbox-inner img { width:100%; display:block; border:1px solid rgba(255,140,0,0.2); }
-  .lb-close {
-    position:absolute; top:-2.5rem; right:0;
-    background:none; border:none; color:var(--ember);
-    cursor:pointer; font-family:'Cinzel', serif;
-    font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase;
-    padding:0.5rem;
-  }
-  .lb-close:hover { color:var(--gold); }
+  /* LIGHTBOX */
+  .lightbox{display:none;position:fixed;inset:0;background:rgba(5,3,5,0.95);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(8px);padding:2rem;}
+  .lightbox.open{display:flex;}
+  .lightbox-inner{max-width:700px;width:100%;position:relative;}
+  .lightbox-inner img{width:100%;display:block;border:1px solid rgba(255,140,0,0.2);}
+  .lb-actions{display:flex;gap:0.6rem;margin-top:0.8rem;justify-content:flex-end;}
+  .lb-close{position:absolute;top:-2.5rem;right:0;background:none;border:none;color:var(--ember);cursor:pointer;font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.5rem;}
+  .lb-close:hover{color:var(--gold);}
 
-  /* ── FOOTER ── */
-  footer {
-    text-align:center; padding:2.5rem 2rem;
-    font-family:'IM Fell English', serif; font-style:italic;
-    color:#5a4030; font-size:0.85rem; line-height:1.8;
-    border-top:1px solid rgba(255,140,0,0.08);
-    position:relative; z-index:1;
-  }
+  /* STATS PANEL */
+  .stats-panel{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;background:var(--card-bg);border:1px solid rgba(255,140,0,0.15);padding:1.5rem 2rem;}
+  .stat-item{text-align:center;}
+  .stat-val{font-family:'Cinzel Decorative',serif;font-size:1.6rem;color:var(--gold);filter:drop-shadow(0 0 12px rgba(255,200,0,0.4));}
+  .stat-label{font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,140,0,0.4);margin-top:0.3rem;}
+  @media(max-width:500px){.stats-panel{grid-template-columns:1fr 1fr;}.stat-item:last-child{grid-column:1/-1;}}
 
-  /* ── ANIMATIONS ── */
-  @keyframes fadeDown { from{opacity:0;transform:translateY(-15px)} to{opacity:1;transform:none} }
-  @keyframes fadeUp   { from{opacity:0;transform:translateY(20px)}  to{opacity:1;transform:none} }
-  @keyframes blazeIn  { from{opacity:0;transform:scale(0.85);filter:blur(10px)} to{opacity:1;transform:scale(1);filter:none} }
-  @keyframes pulse    { 0%,100%{opacity:0.7} 50%{opacity:1} }
-  @keyframes spin     { to{transform:rotate(360deg)} }
-  @keyframes float    { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-8px)} }
+  /* FOOTER */
+  footer{text-align:center;padding:3rem 2rem;font-family:'IM Fell English',serif;font-style:italic;color:#5a4030;font-size:0.85rem;line-height:2;border-top:1px solid rgba(255,140,0,0.08);position:relative;z-index:1;}
+  footer a{color:var(--ember);text-decoration:none;}
+  footer a:hover{color:var(--gold);}
+  .footer-socials{display:flex;flex-wrap:wrap;justify-content:center;gap:0.7rem;margin:1rem 0;}
+  .footer-social-link{font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,140,0,0.4);text-decoration:none;padding:0.4rem 1rem;border:1px solid rgba(255,140,0,0.1);transition:all 0.25s;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);}
+  .footer-social-link:hover{color:var(--gold);border-color:rgba(255,140,0,0.4);background:rgba(255,100,0,0.08);}
 
-  .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease,transform 0.7s ease; }
-  .reveal.visible { opacity:1; transform:none; }
-  ::-webkit-scrollbar { width:6px; }
-  ::-webkit-scrollbar-track { background:var(--dark); }
-  ::-webkit-scrollbar-thumb { background:var(--blood); border-radius:3px; }
+  /* ANIMATIONS */
+  @keyframes fadeDown{from{opacity:0;transform:translateY(-15px)}to{opacity:1;transform:none}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  @keyframes blazeIn{from{opacity:0;transform:scale(0.85);filter:blur(10px)}to{opacity:1;transform:scale(1);filter:none}}
+  @keyframes pulse{0%,100%{opacity:0.7}50%{opacity:1}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease;}
+  .reveal.visible{opacity:1;transform:none;}
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:var(--dark);}
+  ::-webkit-scrollbar-thumb{background:var(--blood);border-radius:3px;}
 </style>
 </head>
 <body>
 
 <canvas id="particles"></canvas>
+<div class="toast" id="toast"></div>
 
+<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
   <div class="lightbox-inner">
     <button class="lb-close" onclick="closeLightbox()">✕ Cerrar</button>
     <img id="lbImg" src="" alt="">
+    <div class="lb-actions">
+      <a class="action-btn" id="lbDownload" href="#" download="dragon_arte.png" target="_blank">⬇ Descargar</a>
+      <button class="action-btn share-btn" onclick="shareImg(document.getElementById('lbImg').src)">🔗 Copiar link</button>
+    </div>
   </div>
 </div>
 
 <!-- HERO -->
 <div class="hero">
-  <p class="eyebrow">geni2012_ · Arte con IA · Generador Gratis</p>
+  <p class="eyebrow">Dragón Primordial · Arte con IA · Generador Gratis</p>
   <h1>🔥 Generador de Arte</h1>
-  <p class="hero-sub">Ezcribe cualquier idea y la magia hará el rezte ✨</p>
+  <p class="hero-sub">Escribe cualquier idea y la magia hará el resto ✨</p>
+</div>
+
+<!-- REDES SOCIALES -->
+<div class="social-bar">
+  <a class="social-link" href="https://www.tiktok.com/@dragonprimordial?lang=es" target="_blank">🎵 TikTok</a>
+  <a class="social-link" href="https://x.com/dragonprimordia" target="_blank">𝕏 Twitter</a>
+  <a class="social-link" href="https://www.instagram.com/dragonprimordial/" target="_blank">📸 Instagram</a>
+  <a class="social-link" href="https://www.threads.com/@dragonprimordial" target="_blank">🧵 Threads</a>
+  <a class="social-link" href="https://www.facebook.com/profile.php?id=61575355656190" target="_blank">📘 Facebook</a>
+  <a class="social-link" href="https://discord.com/channels/1489401096530301128/1489401098518139032" target="_blank">💬 Discord</a>
+  <a class="social-link" href="https://www.youtube.com/@Drag%C3%B3nPrimordial" target="_blank">▶️ YouTube</a>
 </div>
 
 <!-- LIVE BAR -->
 <div class="live-bar">
   <div class="live-item">
     <div class="live-dot"></div>
-    <span><span class="live-count" id="usersOnline">1</span> perzona(z) en la página</span>
+    <span><span class="live-count" id="usersOnline">1</span> persona(s) en la página</span>
   </div>
   <div class="live-item">
     <div class="live-dot red"></div>
-    <span><span class="live-gen-count" id="genCount">0</span> imágenez generadaz hoy</span>
+    <span><span class="live-gen-count" id="genCountBar">0</span> imágenes generadas hoy</span>
   </div>
-  <div class="live-item" style="color:rgba(255,140,0,0.35); font-size:0.6rem;">
-    ✦ &nbsp;Powered by Pollinations AI — 100% Gratis
+  <div class="live-item" style="color:rgba(255,140,0,0.35);font-size:0.6rem;">
+    ✦ Powered by Pollinations AI — 100% Gratis
   </div>
 </div>
 
@@ -435,51 +260,94 @@
 
 <div class="main-wrap">
 
+  <!-- STATS -->
+  <div class="stats-panel reveal">
+    <div class="stat-item">
+      <div class="stat-val" id="statToday">0</div>
+      <div class="stat-label">🔥 Hoy</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val" id="statTotal">0</div>
+      <div class="stat-label">⚡ Total</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val" id="statSession">0</div>
+      <div class="stat-label">🎨 Esta sesión</div>
+    </div>
+  </div>
+
   <!-- GENERATOR -->
   <div class="gen-box reveal">
-    <div class="gen-title">✏️ Ezcribe tu idea y genera tu imagen</div>
+    <div class="gen-title">✏️ Escribe tu idea y genera tu imagen</div>
 
+    <!-- CALIDAD -->
+    <div class="quality-row">
+      <span class="quality-label">⚙️ Calidad:</span>
+      <button class="quality-btn active" id="qFast" onclick="setQuality('fast')">
+        ⚡ Rápido
+        <span class="quality-hint">3–5 seg · buena calidad</span>
+      </button>
+      <button class="quality-btn" id="qHigh" onclick="setQuality('high')">
+        🎨 Alta Calidad
+        <span class="quality-hint">20–30 seg · máxima calidad</span>
+      </button>
+      <button class="surprise-btn" onclick="surprise()">🎲 ¡Sorpréndeme!</button>
+    </div>
+
+    <!-- INPUT ROW -->
     <div class="input-row">
-      <input
-        class="prompt-input"
-        id="promptInput"
-        type="text"
-        placeholder="ej: dragón de fuego en la oscuridad..."
-        maxlength="200"
-      >
+      <input class="prompt-input" id="promptInput" type="text"
+        placeholder="ej: dragón de fuego primordial..." maxlength="300">
       <select class="style-select" id="styleSelect">
         <option value="">🎨 Estilo Normal</option>
-        <option value="anime style">✨ Anime</option>
-        <option value="realistic digital art">🖼️ Realista</option>
-        <option value="dark fantasy art">🌑 Dark Fantasy</option>
-        <option value="watercolor painting">💧 Acuarela</option>
-        <option value="pixel art">👾 Pixel Art</option>
-        <option value="sketch pencil drawing">✏️ Boceto</option>
-        <option value="chibi cute style">🍬 Chibi</option>
+        <option value="anime style, vibrant colors">✨ Anime</option>
+        <option value="realistic digital art, photorealistic">🖼️ Realista</option>
+        <option value="dark fantasy art, dramatic lighting">🌑 Dark Fantasy</option>
+        <option value="watercolor painting, soft edges">💧 Acuarela</option>
+        <option value="pixel art, 16-bit">👾 Pixel Art</option>
+        <option value="pencil sketch drawing, detailed">✏️ Boceto</option>
+        <option value="chibi cute style, big eyes">🍬 Chibi</option>
+        <option value="oil painting, baroque style">🎭 Pintura al Óleo</option>
+        <option value="neon cyberpunk, glowing lights">🌆 Cyberpunk</option>
+        <option value="studio ghibli style, soft lighting">🌿 Ghibli</option>
+      </select>
+      <select class="size-select" id="sizeSelect">
+        <option value="512x512">⬛ Cuadrado</option>
+        <option value="768x512">▬ Horizontal</option>
+        <option value="512x768">▮ Vertical</option>
+        <option value="768x768">⬛ Grande</option>
       </select>
       <button class="gen-btn" id="genBtn" onclick="generateImage()">⚡ Generar</button>
     </div>
 
     <!-- SUGERENCIAS -->
-    <div class="suggestions" id="suggestions">
-      <span class="sug-tag" onclick="setSuggestion('dragón de fuego')">🐲 Dragón de fuego</span>
-      <span class="sug-tag" onclick="setSuggestion('gatita kawaii')">🐱 Gatita kawaii</span>
-      <span class="sug-tag" onclick="setSuggestion('guerrero con espada')">⚔️ Guerrero</span>
-      <span class="sug-tag" onclick="setSuggestion('lobo bajo la luna')">🐺 Lobo lunar</span>
-      <span class="sug-tag" onclick="setSuggestion('princesa mágica')">👸 Princesa</span>
-      <span class="sug-tag" onclick="setSuggestion('ciudad flotante en las nubes')">🏙️ Ciudad flotante</span>
-      <span class="sug-tag" onclick="setSuggestion('fénix renaciendo')">🦅 Fénix</span>
-      <span class="sug-tag" onclick="setSuggestion('bruja del bosque oscuro')">🧙 Bruja</span>
+    <div class="suggestions">
+      <span class="sug-tag" onclick="setSuggestion('dragón de fuego primordial con alas doradas')">🐲 Dragón Primordial</span>
+      <span class="sug-tag" onclick="setSuggestion('bestia salvaje en la oscuridad')">🐺 Bestia Salvaje</span>
+      <span class="sug-tag" onclick="setSuggestion('guerrero con espada de fuego en batalla épica')">⚔️ Guerrero</span>
+      <span class="sug-tag" onclick="setSuggestion('lobo bajo la luna llena en el bosque')">🌕 Lobo Lunar</span>
+      <span class="sug-tag" onclick="setSuggestion('fénix renaciendo entre llamas doradas')">🦅 Fénix</span>
+      <span class="sug-tag" onclick="setSuggestion('ciudad flotante en las nubes al atardecer')">🏙️ Ciudad Flotante</span>
+      <span class="sug-tag" onclick="setSuggestion('monstruo antiguo del abismo con tentáculos')">👁️ Monstruo Abisal</span>
+      <span class="sug-tag" onclick="setSuggestion('bruja del bosque oscuro con magia rúnica')">🧙 Bruja</span>
+      <span class="sug-tag" onclick="setSuggestion('caballero de la oscuridad con armadura negra')">🛡️ Caballero</span>
+      <span class="sug-tag" onclick="setSuggestion('bosque encantado con luciérnagas mágicas')">🌲 Bosque Mágico</span>
+    </div>
+
+    <!-- BARRA DE PROGRESO -->
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-label" id="progressLabel">Generando imagen...</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
     </div>
 
     <!-- RESULTADO -->
     <div class="result-area" id="resultArea">
       <div class="result-grid">
-        <div class="result-img-wrap">
+        <div class="result-img-wrap" id="resultImgWrap">
           <img id="resultImg" src="" alt="Imagen generada">
           <div class="loading-overlay" id="loadingOverlay">
             <div class="spinner"></div>
-            <span class="loading-text" id="loadingText">Generando magia...</span>
+            <span class="loading-text" id="loadingText">Invocando dragones...</span>
           </div>
         </div>
         <div class="result-info">
@@ -488,28 +356,30 @@
             <div class="result-prompt-val" id="resultPromptDisplay">—</div>
           </div>
           <div class="result-meta" id="resultMeta"></div>
-          <a class="download-btn" id="downloadBtn" href="#" download="geni2012_arte.png" target="_blank">
-            ⬇ Dezcargar Imagen
-          </a>
+          <div class="action-btns">
+            <a class="action-btn" id="downloadBtn" href="#" download="dragon_primordial_arte.png" target="_blank">⬇ Descargar</a>
+            <button class="action-btn share-btn" id="shareBtn" onclick="shareCurrentImg()">🔗 Copiar link</button>
+            <button class="action-btn regen-btn" id="regenBtn" onclick="regenImage()">🔄 Regenerar</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- RECENT -->
+  <!-- RECIENTES -->
   <div class="reveal">
-    <div class="recent-title">🕰️ Generacionez Recientez (ezta zezión)</div>
+    <div class="section-header">
+      <div class="recent-title">🕰️ Generaciones Recientes</div>
+      <button class="clear-btn" onclick="clearRecent()">🗑 Limpiar</button>
+    </div>
     <div class="recent-grid" id="recentGrid">
-      <div class="no-recent">Todavía no hay imágenez... ¡genera la primera! 🔥</div>
+      <div class="no-recent">Todavía no hay imágenes... ¡genera la primera! 🔥</div>
     </div>
   </div>
 
   <!-- USUARIOS ONLINE -->
   <div class="users-section reveal">
-    <div class="users-title">
-      <div class="live-dot"></div>
-      Perzonaz en la página ahora
-    </div>
+    <div class="users-title"><div class="live-dot"></div>Personas en la página ahora</div>
     <div class="users-list" id="usersList"></div>
   </div>
 
@@ -518,214 +388,343 @@
 <div class="divider"></div>
 
 <footer>
-  🎨 Creado para <strong style="color:var(--ember)">geni2012_</strong> · Arte con IA gratis<br><br>
-  Imágenez generadaz por <a href="https://pollinations.ai" target="_blank" style="color:var(--ember); text-decoration:none;">Pollinations.ai</a> — 100% gratis ✨
+  🔥 <strong style="color:var(--ember)">Dragón Primordial</strong> · Arte con IA gratis<br>
+  <div class="footer-socials">
+    <a class="footer-social-link" href="https://www.tiktok.com/@dragonprimordial?lang=es" target="_blank">🎵 TikTok</a>
+    <a class="footer-social-link" href="https://x.com/dragonprimordia" target="_blank">𝕏 Twitter</a>
+    <a class="footer-social-link" href="https://www.instagram.com/dragonprimordial/" target="_blank">📸 Instagram</a>
+    <a class="footer-social-link" href="https://www.threads.com/@dragonprimordial" target="_blank">🧵 Threads</a>
+    <a class="footer-social-link" href="https://www.facebook.com/profile.php?id=61575355656190" target="_blank">📘 Facebook</a>
+    <a class="footer-social-link" href="https://discord.com/channels/1489401096530301128/1489401098518139032" target="_blank">💬 Discord</a>
+    <a class="footer-social-link" href="https://www.youtube.com/@Drag%C3%B3nPrimordial" target="_blank">▶️ YouTube</a>
+  </div>
+  Imágenes generadas por <a href="https://pollinations.ai" target="_blank">Pollinations.ai</a> ✨
 </footer>
 
 <script>
 // ══════════════════════════════════════════
-//   CONFIGURACIÓN
+const POLLINATIONS_USER = 'dragonprimordial12-netizen';
 // ══════════════════════════════════════════
-const TOTAL_SIMULADOS = 8; // cuántos "usuarios" mostrar
-const FAKE_USERS = [
-  "dragonfire22","luna_kawaii","wolfshadow_x","artlover99","geni_fan01",
-  "celestia_ok","beastmaster_","starnight_art","darkrose__","robloxpro77",
-  "chibi_queen","inkmaster01","stormwolf_art","neonblaze_x","sofiadraws"
+
+let currentQuality = 'fast';
+let lastPrompt = '';
+let lastStyle = '';
+let lastSeed = 0;
+let lastUrl = '';
+let sessionCount = 0;
+
+// Stats con reset diario
+const TODAY = new Date().toDateString();
+let savedDay = localStorage.getItem('dp_day');
+if (savedDay !== TODAY) {
+  localStorage.setItem('dp_day', TODAY);
+  localStorage.setItem('dp_todayCount', '0');
+}
+let todayCount = parseInt(localStorage.getItem('dp_todayCount') || '0');
+let totalCount = parseInt(localStorage.getItem('dp_totalCount') || '0');
+let recentImgs = JSON.parse(localStorage.getItem('dp_recentImgs') || '[]');
+
+function updateStats() {
+  document.getElementById('statToday').textContent = todayCount;
+  document.getElementById('statTotal').textContent = totalCount;
+  document.getElementById('statSession').textContent = sessionCount;
+  document.getElementById('genCountBar').textContent = todayCount;
+}
+updateStats();
+
+// PROMPTS SORPRESA
+const SURPRISE_PROMPTS = [
+  'dragón de cristal con alas de hielo en una tormenta',
+  'samurái fantasma en una ciudad en llamas al atardecer',
+  'sirena oscura en las profundidades del océano abismal',
+  'ángel caído con armadura rota entre ruinas antiguas',
+  'lobo mecánico cibernético corriendo bajo la lluvia neón',
+  'hechicero anciano convocando un portal dimensional',
+  'serpiente gigante enroscada alrededor de una montaña nevada',
+  'guerrera valquiria volando entre relámpagos dorados',
+  'ciudad steampunk flotante entre nubes tormentosas',
+  'gato mágico con cola de llama y ojos de zafiro',
+  'bosque de cristal negro bajo una luna roja sangre',
+  'dragón de sombras devorando una estrella',
+  'caballero de hielo en un castillo congelado eterno',
+  'fénix negro renaciendo de cenizas violeta',
+  'kraken atacando un barco pirata en tormenta épica',
+  'elfa oscura con arco de luz lunar en bosque prohibido',
+  'golem de roca volcánica con corazón de fuego',
+  'nave espacial antigua cubierta de runas mágicas',
+  'brujo con cuervo negro invocando la oscuridad',
+  'pantera con piel de galaxia corriendo entre estrellas',
 ];
-// ══════════════════════════════════════════
 
-let genCount  = parseInt(localStorage.getItem('genCount') || '0');
-let recentImgs = JSON.parse(localStorage.getItem('recentImgs') || '[]');
-let currentImgUrl = '';
+function surprise() {
+  const p = SURPRISE_PROMPTS[Math.floor(Math.random() * SURPRISE_PROMPTS.length)];
+  document.getElementById('promptInput').value = p;
+  document.getElementById('promptInput').focus();
+  showToast('✨ Prompt aleatorio cargado!');
+}
 
-// ── INIT ──
-document.getElementById('genCount').textContent = genCount;
-renderRecentGrid();
-renderUsers();
-startUserFluctuation();
+function setQuality(q) {
+  currentQuality = q;
+  document.getElementById('qFast').classList.toggle('active', q === 'fast');
+  document.getElementById('qHigh').classList.toggle('active', q === 'high');
+}
 
-// Allow Enter key
-document.getElementById('promptInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') generateImage();
-});
+let isGenerating = false; // bloqueo global para evitar requests en paralelo
 
-// ── GENERATE ──
-function generateImage() {
-  const raw   = document.getElementById('promptInput').value.trim();
+function buildUrl(prompt, seed) {
   const style = document.getElementById('styleSelect').value;
-  if (!raw) {
-    shakeInput(); return;
-  }
+  const fullPrompt = style ? `${prompt}, ${style}` : prompt;
+  const encoded = encodeURIComponent(fullPrompt);
+  const sizeVal = document.getElementById('sizeSelect').value;
+  const [w, h] = sizeVal.split('x');
+  const model = currentQuality === 'high' ? 'flux' : 'flux-schnell';
+  return `https://image.pollinations.ai/prompt/${encoded}?width=${w}&height=${h}&seed=${seed}&model=${model}&nologo=true`;
+}
 
-  const prompt   = style ? `${raw}, ${style}` : raw;
-  const seed     = Math.floor(Math.random() * 999999);
-  const encoded  = encodeURIComponent(prompt);
-  const url      = `https://image.pollinations.ai/prompt/${encoded}?width=512&height=512&seed=${seed}&nologo=true`;
+function regenImage() {
+  if (!lastPrompt || isGenerating) return;
+  lastSeed = Math.floor(Math.random() * 999999);
+  runGeneration(lastPrompt, lastSeed);
+}
 
-  currentImgUrl = url;
+function generateImage() {
+  if (isGenerating) { showToast('⏳ Espera que termine la imagen actual...'); return; }
+  const raw = document.getElementById('promptInput').value.trim();
+  if (!raw) { shakeInput(); return; }
+  lastPrompt = raw;
+  lastStyle = document.getElementById('styleSelect').value;
+  lastSeed = Math.floor(Math.random() * 999999);
+  runGeneration(raw, lastSeed);
+}
 
-  // show result area + loading
+function runGeneration(raw, seed, retryCount = 0) {
+  if (isGenerating && retryCount === 0) { showToast('⏳ Espera que termine la imagen actual...'); return; }
+  isGenerating = true;
+
+  const url = buildUrl(raw, seed);
+  lastUrl = url;
+
   document.getElementById('resultArea').classList.add('show');
   document.getElementById('loadingOverlay').classList.remove('hidden');
   document.getElementById('resultImg').style.opacity = '0';
   document.getElementById('resultPromptDisplay').textContent = raw;
   document.getElementById('genBtn').disabled = true;
+  document.getElementById('regenBtn').disabled = true;
   document.getElementById('downloadBtn').href = '#';
 
-  // update meta
-  document.getElementById('resultMeta').innerHTML = `
-    <div class="result-meta-row"><span class="label">Eztilo</span>${style || 'Normal'}</div>
-    <div class="result-meta-row"><span class="label">Zeilla</span>${seed}</div>
-    <div class="result-meta-row"><span class="label">Eztado</span><span style="color:var(--teal)">⏳ Generando...</span></div>
-  `;
+  // Progress bar
+  const pw = document.getElementById('progressWrap');
+  const pf = document.getElementById('progressFill');
+  const pl = document.getElementById('progressLabel');
+  pw.classList.add('show');
+  pf.style.width = '0%';
 
-  // animated loading text
-  const msgs = ['Invocando dragones...','Mezclando colorez...','Dando vida al arte...','Cazí listo...','Un momento máz...'];
+  const totalTime = currentQuality === 'high' ? 28000 : 7000;
+  const startTime = Date.now();
+  const msgs = currentQuality === 'high'
+    ? ['Invocando poderes máximos...','Mezclando píxeles mágicos...','Pintando los detalles...','Afinando la obra...','Casi lista la obra maestra...']
+    : ['Invocando dragones...','Mezclando colores...','Dando vida al arte...','Casi listo...'];
   let mi = 0;
   const lt = document.getElementById('loadingText');
-  lt.textContent = msgs[mi];
-  const msgInterval = setInterval(() => { mi=(mi+1)%msgs.length; lt.textContent=msgs[mi]; }, 2200);
+  lt.textContent = retryCount > 0 ? `⏳ Reintentando (${retryCount}/3)...` : msgs[mi];
+  const iv = setInterval(() => {
+    mi = (mi + 1) % msgs.length;
+    if (retryCount === 0) lt.textContent = msgs[mi];
+    const elapsed = Date.now() - startTime;
+    const prog = Math.min(90, (elapsed / totalTime) * 90);
+    pf.style.width = prog + '%';
+    pl.textContent = retryCount > 0
+      ? `Esperando cola... reintento ${retryCount}/3`
+      : `Generando... ${Math.round(prog)}%`;
+  }, currentQuality === 'high' ? 3000 : 1200);
 
-  // load image
-  const img = new Image();
-  img.onload = () => {
-    clearInterval(msgInterval);
-    document.getElementById('resultImg').src = url;
-    document.getElementById('resultImg').style.opacity = '1';
-    document.getElementById('loadingOverlay').classList.add('hidden');
-    document.getElementById('genBtn').disabled = false;
-    document.getElementById('downloadBtn').href = url;
+  document.getElementById('resultMeta').innerHTML = `
+    <div class="result-meta-row"><span class="label">Estilo</span>${document.getElementById('styleSelect').options[document.getElementById('styleSelect').selectedIndex].text}</div>
+    <div class="result-meta-row"><span class="label">Semilla</span>${seed}</div>
+    <div class="result-meta-row"><span class="label">Estado</span><span style="color:var(--teal)">⏳ Generando...</span></div>
+  `;
 
-    // update meta
-    document.getElementById('resultMeta').innerHTML = `
-      <div class="result-meta-row"><span class="label">Eztilo</span>${style || 'Normal'}</div>
-      <div class="result-meta-row"><span class="label">Zeilla</span>${seed}</div>
-      <div class="result-meta-row"><span class="label">Eztado</span><span style="color:var(--teal)">✔ Listo!</span></div>
-    `;
+  // Usamos fetch para detectar error de cola ANTES de cargar la imagen
+  fetch(url)
+    .then(res => {
+      const contentType = res.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        // Pollinations devolvió JSON de error en vez de imagen
+        return res.json().then(data => { throw { queueError: true, data }; });
+      }
+      // Es una imagen real — convertir a blob y mostrar
+      return res.blob();
+    })
+    .then(blob => {
+      clearInterval(iv);
+      const objectUrl = URL.createObjectURL(blob);
+      pf.style.width = '100%';
+      pl.textContent = '✔ Imagen lista!';
+      setTimeout(() => pw.classList.remove('show'), 1500);
 
-    // save to recent
-    genCount++;
-    localStorage.setItem('genCount', genCount);
-    document.getElementById('genCount').textContent = genCount;
+      document.getElementById('resultImg').src = objectUrl;
+      document.getElementById('resultImg').style.opacity = '1';
+      document.getElementById('loadingOverlay').classList.add('hidden');
+      isGenerating = false;
+      document.getElementById('genBtn').disabled = false;
+      document.getElementById('regenBtn').disabled = false;
+      document.getElementById('downloadBtn').href = url; // URL original para descarga
 
-    recentImgs.unshift({ url, prompt: raw });
-    if (recentImgs.length > 12) recentImgs.pop();
-    localStorage.setItem('recentImgs', JSON.stringify(recentImgs));
-    renderRecentGrid();
-  };
-  img.onerror = () => {
-    clearInterval(msgInterval);
-    document.getElementById('loadingOverlay').innerHTML = `<span style="color:#ff9999; font-size:0.75rem; letter-spacing:0.15em;">Error al generar. Intenta de nuevo.</span>`;
-    document.getElementById('genBtn').disabled = false;
-  };
-  img.src = url;
+      const styleLabel = document.getElementById('styleSelect').options[document.getElementById('styleSelect').selectedIndex].text;
+      document.getElementById('resultMeta').innerHTML = `
+        <div class="result-meta-row"><span class="label">Estilo</span>${styleLabel}</div>
+        <div class="result-meta-row"><span class="label">Semilla</span>${seed}</div>
+        <div class="result-meta-row"><span class="label">Tamaño</span>${document.getElementById('sizeSelect').value}</div>
+        <div class="result-meta-row"><span class="label">Estado</span><span style="color:var(--teal)">✔ Listo!</span></div>
+      `;
+
+      todayCount++; totalCount++; sessionCount++;
+      localStorage.setItem('dp_todayCount', todayCount);
+      localStorage.setItem('dp_totalCount', totalCount);
+      updateStats();
+
+      recentImgs.unshift({ url, prompt: raw });
+      if (recentImgs.length > 16) recentImgs.pop();
+      localStorage.setItem('dp_recentImgs', JSON.stringify(recentImgs));
+      renderRecentGrid();
+      showToast('✔ ¡Imagen generada!');
+    })
+    .catch(err => {
+      clearInterval(iv);
+      // Si es error de cola y aún tenemos reintentos disponibles
+      if (err && err.queueError && retryCount < 3) {
+        const waitSecs = (retryCount + 1) * 4; // 4s, 8s, 12s
+        lt.textContent = `⏳ Cola llena, reintentando en ${waitSecs}s...`;
+        pl.textContent = `Esperando ${waitSecs} segundos...`;
+        pf.style.width = '15%';
+        showToast(`⏳ Cola llena, reintentando en ${waitSecs}s...`);
+        isGenerating = false; // liberar para permitir el retry
+        setTimeout(() => runGeneration(raw, seed, retryCount + 1), waitSecs * 1000);
+        return;
+      }
+      // Error definitivo
+      pw.classList.remove('show');
+      isGenerating = false;
+      document.getElementById('loadingOverlay').innerHTML = `
+        <div style="text-align:center;padding:1rem">
+          <span style="color:#ff9999;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:0.8rem;">⚠ Error al generar</span>
+          <span style="color:#a08060;font-size:0.65rem;letter-spacing:0.1em;">Pollinations está ocupado.<br>Intenta de nuevo en unos segundos.</span>
+          <br><br>
+          <button onclick="regenImage()" style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.15em;padding:0.5rem 1rem;background:rgba(255,80,0,0.2);border:1px solid rgba(255,140,0,0.4);color:var(--ember);cursor:pointer;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);">🔄 Reintentar</button>
+        </div>`;
+      document.getElementById('genBtn').disabled = false;
+      document.getElementById('regenBtn').disabled = false;
+    });
 }
 
-// ── SUGGESTIONS ──
-function setSuggestion(text) {
-  document.getElementById('promptInput').value = text;
+function shareCurrentImg() { shareImg(lastUrl); }
+function shareImg(url) {
+  if (!url || url === '#') return;
+  navigator.clipboard.writeText(url).then(() => showToast('🔗 Link copiado al portapapeles!')).catch(() => showToast('⚠ No se pudo copiar'));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function setSuggestion(t) {
+  document.getElementById('promptInput').value = t;
   document.getElementById('promptInput').focus();
 }
 
-// ── SHAKE ──
 function shakeInput() {
-  const inp = document.getElementById('promptInput');
-  inp.style.animation = 'none';
-  inp.style.borderColor = '#ff4444';
-  setTimeout(() => {
-    inp.style.borderColor = '';
-  }, 600);
+  const i = document.getElementById('promptInput');
+  i.style.borderColor = '#ff4444';
+  i.style.boxShadow = '0 0 15px rgba(255,50,50,0.3)';
+  setTimeout(() => { i.style.borderColor = ''; i.style.boxShadow = ''; }, 600);
 }
 
-// ── RECENT GRID ──
+function clearRecent() {
+  recentImgs = [];
+  localStorage.setItem('dp_recentImgs', '[]');
+  renderRecentGrid();
+  showToast('🗑 Historial borrado');
+}
+
 function renderRecentGrid() {
-  const grid = document.getElementById('recentGrid');
-  if (recentImgs.length === 0) {
-    grid.innerHTML = '<div class="no-recent">Todavía no hay imágenez... ¡genera la primera! 🔥</div>';
+  const g = document.getElementById('recentGrid');
+  if (!recentImgs.length) {
+    g.innerHTML = '<div class="no-recent">Todavía no hay imágenes... ¡genera la primera! 🔥</div>';
     return;
   }
-  grid.innerHTML = recentImgs.map(r => `
+  g.innerHTML = recentImgs.map(r => `
     <div class="recent-card" onclick="openLightbox('${r.url}')">
       <img src="${r.url}" alt="${r.prompt}" loading="lazy">
       <div class="recent-card-label">${r.prompt}</div>
-    </div>
-  `).join('');
+      <a class="recent-card-dl" href="${r.url}" download="dragon_arte.png" target="_blank" onclick="event.stopPropagation()">⬇</a>
+    </div>`).join('');
 }
 
-// ── LIGHTBOX ──
 function openLightbox(src) {
   document.getElementById('lbImg').src = src;
+  document.getElementById('lbDownload').href = src;
   document.getElementById('lightbox').classList.add('open');
 }
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('open');
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+document.getElementById('lightbox').addEventListener('click', e => { if (e.target === e.currentTarget) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+// USUARIOS FAKE
+const FAKE_USERS = [
+  'dragonfire22','luna_kawaii','wolfshadow_x','artlover99','dragon_fan01',
+  'celestia_ok','beastmaster_','starnight_art','darkrose__','robloxpro77',
+  'chibi_queen','inkmaster01','stormwolf_art','neonblaze_x','primordial_fan',
+  'beast_hunter_','ember_wolf','shadowdrake_x','flameborn_ok','voidcrawler99',
+  'runic_mage','nightprowler_','celestial_arc','darkwing_art','stormbeast99',
+];
+function renderUsers() {
+  const n = Math.floor(Math.random() * 7) + 3;
+  const p = shuffle([...FAKE_USERS]).slice(0, n);
+  document.getElementById('usersOnline').textContent = n;
+  document.getElementById('usersList').innerHTML = p.map(u =>
+    `<div class="user-tag"><span class="udot"></span><span class="uname">@${u}</span></div>`
+  ).join('');
 }
-document.getElementById('lightbox').addEventListener('click', e => {
-  if (e.target === e.currentTarget) closeLightbox();
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+renderRecentGrid();
+renderUsers();
+setInterval(renderUsers, 18000);
+
+document.getElementById('promptInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') generateImage();
 });
 
-// ── USERS ONLINE ──
-function renderUsers() {
-  const count = Math.floor(Math.random() * 5) + 4; // 4–8
-  const picked = shuffle([...FAKE_USERS]).slice(0, count);
-  document.getElementById('usersOnline').textContent = count;
-  document.getElementById('usersList').innerHTML = picked.map(u => `
-    <div class="user-tag">
-      <span class="udot"></span>
-      <span class="uname">@${u}</span>
-    </div>
-  `).join('');
-}
-function startUserFluctuation() {
-  setInterval(() => {
-    renderUsers();
-  }, 18000); // cambia cada 18s
-}
-function shuffle(arr) {
-  for (let i=arr.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [arr[i],arr[j]]=[arr[j],arr[i]];
-  }
-  return arr;
-}
-
-// ── PARTICLES ──
-const canvas = document.getElementById('particles');
-const ctx    = canvas.getContext('2d');
-let W = canvas.width = window.innerWidth;
-let H = canvas.height = window.innerHeight;
-window.addEventListener('resize', () => { W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; });
-const embers = Array.from({length:80}, () => ({
-  x:Math.random()*W, y:H+Math.random()*100,
-  size:Math.random()*2.5+0.5,
-  speed:Math.random()*0.8+0.2,
-  drift:(Math.random()-0.5)*0.4,
-  alpha:Math.random()*0.6+0.1,
-  hue:Math.random()*40+10
+// PARTICLES
+const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
+let W = canvas.width = window.innerWidth, H = canvas.height = window.innerHeight;
+window.addEventListener('resize', () => { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; });
+const embers = Array.from({ length: 90 }, () => ({
+  x: Math.random() * window.innerWidth, y: window.innerHeight + Math.random() * 100,
+  size: Math.random() * 2.5 + 0.5, speed: Math.random() * 0.8 + 0.2,
+  drift: (Math.random() - 0.5) * 0.4, alpha: Math.random() * 0.6 + 0.1, hue: Math.random() * 60 + 5
 }));
 function drawEmbers() {
-  ctx.clearRect(0,0,W,H);
+  ctx.clearRect(0, 0, W, H);
   embers.forEach(e => {
-    e.y-=e.speed; e.x+=e.drift;
-    e.alpha+=(Math.random()-0.5)*0.02;
-    e.alpha=Math.max(0.05,Math.min(0.7,e.alpha));
-    if(e.y<-10){e.y=H+10;e.x=Math.random()*W;}
-    ctx.beginPath();
-    ctx.arc(e.x,e.y,e.size,0,Math.PI*2);
-    ctx.fillStyle=`hsla(${e.hue},100%,60%,${e.alpha})`;
-    ctx.fill();
+    e.y -= e.speed; e.x += e.drift;
+    e.alpha += (Math.random() - 0.5) * 0.02;
+    e.alpha = Math.max(0.05, Math.min(0.7, e.alpha));
+    if (e.y < -10) { e.y = H + 10; e.x = Math.random() * W; }
+    ctx.beginPath(); ctx.arc(e.x, e.y, e.size, 0, Math.PI * 2);
+    ctx.fillStyle = `hsla(${e.hue},100%,60%,${e.alpha})`; ctx.fill();
   });
   requestAnimationFrame(drawEmbers);
 }
 drawEmbers();
 
-// ── SCROLL REVEAL ──
 const obs = new IntersectionObserver(entries => {
-  entries.forEach((e,i) => {
-    if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*80); obs.unobserve(e.target); }
-  });
-},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 80); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
