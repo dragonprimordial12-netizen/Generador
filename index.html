@@ -306,7 +306,7 @@ function generateImage() {
   const encoded = encodeURIComponent(prompt);
 
   // referrer = tu usuario de Pollinations → te da Polen por cada imagen 🌸
-  const url = `https://image.pollinations.ai/prompt/${encoded}?width=512&height=512&seed=${seed}&nologo=true&referrer=${POLLINATIONS_USER}`;
+  const url = `https://image.pollinations.ai/prompt/${encoded}?width=512&height=512&seed=${seed}&model=flux&referrer=${POLLINATIONS_USER}`;
 
   document.getElementById('resultArea').classList.add('show');
   document.getElementById('loadingOverlay').classList.remove('hidden');
@@ -350,9 +350,9 @@ function generateImage() {
   };
   img.onerror = () => {
     clearInterval(iv);
-    document.getElementById('loadingOverlay').innerHTML =
-      `<span style="color:#ff9999;font-size:0.75rem;letter-spacing:0.15em;">Error al generar. Intenta de nuevo.</span>`;
-    document.getElementById('genBtn').disabled = false;
+    document.getElementById("loadingOverlay").innerHTML = `<div style="text-align:center;padding:1rem"><span style="color:#ff9999;font-size:0.75rem;letter-spacing:0.1em;display:block;margin-bottom:0.8rem;">⚠ Error al generar</span><span style="color:#a08060;font-size:0.65rem;letter-spacing:0.1em;">Pollinations eztá ocupado.<br>Intenta de nuevo en unoz zegundoz.</span></div>`;
+    document.getElementById("genBtn").disabled = false;
+    setTimeout(() => { document.getElementById("loadingOverlay").classList.add("hidden"); }, 5000);
   };
   img.src = url;
 }
@@ -396,4 +396,3 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
 </body>
 </html>
-
